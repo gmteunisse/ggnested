@@ -67,7 +67,7 @@ gen_palette <- function(clr_tbl, clr_pal = NULL, base_clr = "#6495ed"){
 
 #' @import dplyr tidyr purrr
 #' @export
-nested_colours <- function(df, group, subgroup, palette = NULL, base_clr = "#6495ed"){
+nested_colours <- function(df, group, subgroup, palette = NULL, base_clr = "#6495ed", join_str = "_"){
 
   # Check arguments
   if (!group %in% colnames(df)){
@@ -128,7 +128,7 @@ nested_colours <- function(df, group, subgroup, palette = NULL, base_clr = "#649
     mutate(subgroup_colour = map(data, ~gen_shades_tints(.x[["n"]][1], .x[["group_colour"]][1]))) %>%
     unnest(c(data, subgroup_colour)) %>%
     ungroup() %>%
-    mutate(group_subgroup = sprintf("%s_%s", !!sym(group), !!sym(subgroup))) %>%
+    mutate(group_subgroup = sprintf("%s%s%s", !!sym(group), join_str, !!sym(subgroup))) %>%
     select(!n)
 
   return(clr_tbl)
