@@ -109,10 +109,18 @@ ggnested <- function(data,
     nested_scale
   if (main_keys){
     p <- p +
-      theme(legend.text = element_markdown(),
-            legend.key = element_rect(colour = "#FFFFFF",
-                                      fill = "#FFFFFF"))
+      theme_nested(theme)
   }
   return(p)
+}
+
+#' @import ggplot
+#' @export
+theme_nested <- function(theme_fun = theme_minimal, ...){
+  new_theme <- theme_fun(...) +
+    theme(legend.text = element_markdown(),
+          legend.key = element_rect(colour = "#FFFFFF",
+                                    fill = "#FFFFFF"))
+  return(new_theme)
 }
 
