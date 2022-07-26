@@ -114,7 +114,7 @@ ggnested <- function(data,
   return(p)
 }
 
-#' @import ggplot
+#' @import ggplot2
 #' @export
 theme_nested <- function(theme_fun = theme_minimal, ...){
   new_theme <- theme_fun(...) +
