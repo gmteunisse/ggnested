@@ -1,22 +1,13 @@
 #' Generate shade and tint variants for a base color.
 #'
-#' \code{gen_shades_tints} returns \code{i/2} shades and \code{i/2} tints
+#' \code{generate_shades_tints} returns \code{i/2} shades and \code{i/2} tints
 #' of a base color.
 #'
 #' @param i The number of tints and/or shades to be generated.
 #' @param clr The base color to use (hex or named color).
 #' @param incl.base Should the base color be part of the generated palette?
 #' @return \code{i} variants of a base color.
-#' @rdname gen_shades_tints
-#' @examples
-#' gen_shades(3)
-#' gen_tints(3)
-#' gen_shades_tints(3)
-#' gen_shades(3, "blue")
-#' gen_tints(3, "blue")
-#' gen_shades_tints(3, "blue")
-#' @export
-gen_shades_tints <- function(i, clr = "#6495ed"){
+generate_shades_tints <- function(i, clr = "#6495ed"){
   if (i == 0){
     return(c())
   }
@@ -26,20 +17,19 @@ gen_shades_tints <- function(i, clr = "#6495ed"){
   if (i == 2){
     n_tnts <- 2
     n_shds <- 1
-    tnts <- gen_tints(n_tnts, clr, incl.base = F)[1]
+    tnts <- generate_tints(n_tnts, clr, incl.base = F)[1]
   } else {
     n_tnts <- ceiling(i/2)
     n_shds <- i - n_tnts
-    tnts <- gen_tints(n_tnts, clr, incl.base = F)
+    tnts <- generate_tints(n_tnts, clr, incl.base = F)
   }
-  shds <- gen_shades(n_shds, clr, incl.base = T)
+  shds <- generate_shades(n_shds, clr, incl.base = T)
   clrs <- c(shds, tnts)
   return(clrs)
 }
 
-#' \code{gen_shades} returns \code{i} shades of a base color.
-#' @rdname gen_shades_tints
-gen_shades <- function(i, clr = "#6495ed", incl.base = FALSE){
+#' \code{generate_shades} returns \code{i} shades of a base color.
+generate_shades <- function(i, clr = "#6495ed", incl.base = FALSE){
   if (i == 0){
     return(c())
   }
@@ -59,9 +49,8 @@ gen_shades <- function(i, clr = "#6495ed", incl.base = FALSE){
   return(shds[1:i])
 }
 
-#' \code{gen_tints} returns \code{i} tints of a base color.
-#' @rdname gen_shades_tints
-gen_tints <- function(i, clr = "#6495ed", incl.base = FALSE){
+#' \code{generate_tints} returns \code{i} tints of a base color.
+generate_tints <- function(i, clr = "#6495ed", incl.base = FALSE){
   if (i == 0){
     return(c())
   }

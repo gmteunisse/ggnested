@@ -1,43 +1,3 @@
-nested_palette <- function(data, group, subgroup, palette = NULL, base_clr = "#6495ed", join_str = "_"){
-  
-  # Order by group and the count of each subgroup
-  df <- data %>%
-    arrange(!!sym(group), !!sym(subgroup)) %>%
-    mutate(group_subgroup = sprintf("%s%s", !!sym(group), !!sym(subgroup)) %>%
-             factor(ordered = T))
-  
-  # Generate palette
-  pal <- nested_colours(df, group, subgroup, palette = palette, base_clr = base_clr, join_str = join_str)
-  return(pal)
-}
-
-scale_nested <- function(data, 
-                         group, 
-                         subgroup, 
-                         aesthetics = c("fill", "colour"), 
-                         palette = NULL, 
-                         base_clr = "#6495ed", ...){
-  
-  # Generate the nested palette
-  pal <- nested_palette(data, group, subgroup, palette, base_clr)
-  
-  # Relevel
-  df <- left_join(data, pal, by = c(group, subgroup)) %>%
-    mutate(group_subgroup = factor(group_subgroup, ordered = T),
-           !!subgroup := factor(!!sym(subgroup), ordered = T),
-           !!group := factor(!!sym(group), ordered = T))
-  
-  # Extract colours
-  colours <- pal %>%
-    rename(sublabel = !!subgroup,
-           label = !!group) %>%
-    as.data.frame()
-  
-  # Return a scale
-  scale_nested <- scale_discrete_manual(..., aesthetics = aesthetics, name = subgroup, values = colours$subgroup_colour, labels = colours$sublabel)
-  return(scale_nested)
-}
-
 ggnested <- function(data, 
                      mapping = aes(), 
                      ...,
@@ -79,12 +39,13 @@ ggnested <- function(data,
   # Generate the nested palette
   pal <- nested_palette(data, group, subgroup, main_palette, base_clr, join_str)
   
-  # Extract colours and add legend titles for each main group if required
+  # Extract colours
   colours <- pal %>%
     rename(sublabel = !!subgroup,
            label = !!group) %>%
     as.data.frame()
   
+  # Add main_group labels to the legend as extra keys that appear as titles
   if (main_keys){
     colours <- colours %>%
       group_by(label) %>% 
@@ -95,10 +56,12 @@ ggnested <- function(data,
              group_subgroup = ifelse(is.na(group_subgroup), sprintf("**%s**", as.character(label)), group_subgroup)) %>%
       as.data.frame() 
   }
+
+  # Get the final colours
   vals <- colours$subgroup_colour
   names(vals) <- colours$group_subgroup
   
-  # Relevel
+  # Reorder the data
   df <- left_join(data, pal, by = c(group, subgroup)) %>%
     arrange(group, subgroup) %>%
     mutate(group_subgroup = factor(group_subgroup, ordered = T, levels = colours$group_subgroup),
@@ -134,8 +97,12 @@ ggnested <- function(data,
                                         drop = F)
   
   # Update mapping
-  mapping$fill <- quo(group_subgroup)
-  mapping$colour <- quo(group_subgroup)
+  if ("fill" %in% nested_aes){
+    mapping$fill <- quo(group_subgroup)
+  }
+  if ("colour" %in% nested_aes | "color" %in% nested_aes){
+    mapping$colour <- quo(group_subgroup)
+  }
   
   # Generate the plot
   p <- ggplot(df, mapping, ...) +
