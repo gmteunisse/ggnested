@@ -8,29 +8,25 @@ Description: This package creates a ggplot2 object for nested or clustered data.
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
-Depends: R (>= 3.4.4), 
-    stats, 
-    grDevices,
-    ggplot2,
-    ggtext,
-    phyloseq,
-    reshape2,
-    dplyr,
-    magrittr,
-    tidyr,
-    purrr,
-    ggnewscale
+Depends:
+  grDevices,
+  tidyr,
+  dplyr,
+  purrr,
+  magrittr,
+  plotwidgets,
+  ggplot2,
+  ggtext
 Imports:
-    ggplot2,
-    ggtext,
-    phyloseq,
-    reshape2,
-    dplyr,
-    magrittr,
-    tidyr,
-    purrr,
-    ggnewscale
-RoxygenNote: 7.1.2
+  grDevices,
+  tidyr,
+  dplyr,
+  purrr,
+  magrittr,
+  plotwidgets,
+  ggplot2,
+  ggtext
+RoxygenNote: 7.2.0
 Suggests: knitr,
     rmarkdown
 VignetteBuilder: knitr
