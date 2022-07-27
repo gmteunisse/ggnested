@@ -1,6 +1,6 @@
 #' @import dplyr tidyr purrr
 #' @export
-nested_palette <- function(data, group, subgroup, palette = NULL, base_clr = "#6495ed", join_str = "_"){
+nested_palette <- function(data, group, subgroup, palette = NULL, base_clr = "#008CF0", join_str = "_"){
   
   # Check arguments
   if (!group %in% colnames(data)){
@@ -64,7 +64,7 @@ nested_palette <- function(data, group, subgroup, palette = NULL, base_clr = "#6
     mutate(n = n()) %>%
     left_join(group_colours, by = group) %>%
     nest() %>%
-    mutate(subgroup_colour = map(data, ~generate_shades_tints(.x[["n"]][1], .x[["group_colour"]][1]))) %>%
+    mutate(subgroup_colour = map(data, ~generate_gradient(.x[["n"]][1], .x[["group_colour"]][1]))) %>%
     unnest(c(data, subgroup_colour)) %>%
     ungroup() %>%
     mutate(group_subgroup = sprintf("%s%s%s", !!sym(group), join_str, !!sym(subgroup))) %>%

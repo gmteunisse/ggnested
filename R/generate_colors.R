@@ -6,7 +6,7 @@
 #' @param n The number of colors to generate.
 #' @param clr The base color from which to generate other colors.
 #' @return A vector of \code{n} colors.
-generate_colors <- function(n, clr = "#6495ed"){
+generate_colors <- function(n, clr = "#008CF0"){
   if (n == 1){
     return(clr)
   }

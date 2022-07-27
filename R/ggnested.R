@@ -7,7 +7,7 @@ ggnested <- function(data,
                      main_keys = TRUE,
                      nested_aes = c("fill", "color"), 
                      main_palette = NULL, 
-                     base_clr = "#6495ED"
+                     base_clr = "#008CF0"
 ){
   
   # Check if mapping has required args
