@@ -115,13 +115,21 @@ Note that if a custom palette is named, the colours will be associated with the 
 ```{r}
 pal <- c("red", "blue", "green", "yellow", "purple", "orange", "grey50")
 names(pal) <- unique(diamonds$color)
-ggnested(diamonds, 
+p <- ggnested(diamonds, 
          aes(clarity, 
              main_group = color, 
              sub_group = cut), 
          main_palette = pal) + 
   geom_bar()
+p
 
+
+```
+
+The colour palette can also be extracted from the ggplot2 object using `extract_palette`.
+
+```{r}
+extract_palette(p)
 
 ```
 
@@ -150,3 +158,4 @@ ggnested(diamonds,
   theme_nested(theme_minimal)
 
 ```
+

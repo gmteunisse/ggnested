@@ -141,15 +141,37 @@ with the appropriate `main_group` level.
 ``` r
 pal <- c("red", "blue", "green", "yellow", "purple", "orange", "grey50")
 names(pal) <- unique(diamonds$color)
-ggnested(diamonds, 
+p <- ggnested(diamonds, 
          aes(clarity, 
              main_group = color, 
              sub_group = cut), 
          main_palette = pal) + 
   geom_bar()
+p
 ```
 
 ![](man/figures/README-unnamed-chunk-3-1.png)<!-- -->
+
+The colour palette can also be extracted from the ggplot2 object using
+`extract_palette`.
+
+``` r
+extract_palette(p)
+#> # A tibble: 35 x 3
+#>    group_subgroup group_colour subgroup_colour
+#>    <ord>          <chr>        <chr>          
+#>  1 D - Fair       grey50       #333333        
+#>  2 D - Good       grey50       #595959        
+#>  3 D - Very Good  grey50       #7F7F7F        
+#>  4 D - Premium    grey50       #A6A6A6        
+#>  5 D - Ideal      grey50       #CCCCCC        
+#>  6 E - Fair       red          #660000        
+#>  7 E - Good       red          #B20000        
+#>  8 E - Very Good  red          #FF0000        
+#>  9 E - Premium    red          #FF4D4D        
+#> 10 E - Ideal      red          #FF9999        
+#> # ... with 25 more rows
+```
 
 #### Affected aethetics
 
@@ -190,4 +212,4 @@ ggnested(diamonds,
   theme_nested(theme_minimal)
 ```
 
-![](man/figures/README-unnamed-chunk-4-1.png)<!-- -->
+![](man/figures/README-unnamed-chunk-5-1.png)<!-- -->
