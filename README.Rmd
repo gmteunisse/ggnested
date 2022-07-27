@@ -133,6 +133,15 @@ extract_palette(p)
 
 ```
 
+It's also possible to create your own nested palette for other purposes:
+
+```{r}
+nested_palette(diamonds,
+               group = "color",
+               subgroup = "cut")
+
+```
+
 #### Affected aethetics
 By default, both the `color` and `fill` aesthetics of the plot are altered by `ggnested`. However, it is possible to specify which aesthetics should be altered using `nested_aes = c("fill", "colour")`. Note that it leads to issues with the legends of geoms that automatically create both `colour` and `fill` aethetics, as shown with the boxplots below - the `main_group` titles now also show a box outline! This can of course be resolved by setting `main_keys = FALSE` as shown above.
 ```{r nested_aes}
