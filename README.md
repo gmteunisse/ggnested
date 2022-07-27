@@ -41,33 +41,6 @@ well as any other layers such as faceting.
 
 ``` r
 library(ggnested)
-#> Loading required package: tidyr
-#> Loading required package: dplyr
-#> Warning: package 'dplyr' was built under R version 4.1.3
-#> 
-#> Attaching package: 'dplyr'
-#> The following objects are masked from 'package:stats':
-#> 
-#>     filter, lag
-#> The following objects are masked from 'package:base':
-#> 
-#>     intersect, setdiff, setequal, union
-#> Loading required package: purrr
-#> Loading required package: magrittr
-#> 
-#> Attaching package: 'magrittr'
-#> The following object is masked from 'package:purrr':
-#> 
-#>     set_names
-#> The following object is masked from 'package:tidyr':
-#> 
-#>     extract
-#> Loading required package: plotwidgets
-#> Warning: package 'plotwidgets' was built under R version 4.1.3
-#> Loading required package: ggplot2
-#> Warning: package 'ggplot2' was built under R version 4.1.3
-#> Loading required package: ggtext
-#> Warning: package 'ggtext' was built under R version 4.1.3
 data(diamonds)
 ```
 
