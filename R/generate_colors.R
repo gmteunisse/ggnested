@@ -1,12 +1,12 @@
-#' Generate a color palette.
-#'
-#' This function generates \code{n} maximally separated colors with equal
-#' saturation and brightness from a base color.
-#'
-#' @param n The number of colors to generate.
-#' @param clr The base color from which to generate other colors.
-#' @return A vector of \code{n} colors.
+#' @import grDevices
 generate_colors <- function(n, clr = "#008CF0"){
+  
+  # This function generates \code{n} maximally separated colors with equal
+  # saturation and brightness from a base color.
+  # @param n The number of colors to generate.
+  # @param clr The base color from which to generate other colors.
+  # @return A vector of \code{n} colors.
+
   if (n == 1){
     return(clr)
   }
@@ -25,17 +25,20 @@ generate_colors <- function(n, clr = "#008CF0"){
   return(clrs)
 }
 
-#' Reshuffle a list of colors.
-#'
-#' This function reshuffles a vector of colours so that in a list of \code{n}
-#' colors, every color \code{i} in \code{\{1, n / 2\}} will be placed next
-#' to color \code{i + n / 2}. This is useful for visualization of
-#' automatically generated color palettes based upon for example gradients
-#' or HSL color circles.
-#'
-#' @param clrs A vector of colors to reshuffle.
-#' @return A reshuffled vector of \code{clrs}.
+#' @import grDevices
 interleave_colors <- function(clrs){
+  
+  # Reshuffle a list of colors.
+  #
+  # This function reshuffles a vector of colours so that in a list of \code{n}
+  # colors, every color \code{i} in \code{\{1, n / 2\}} will be placed next
+  # to color \code{i + n / 2}. This is useful for visualization of
+  # automatically generated color palettes based upon for example gradients
+  # or HSL color circles.
+  #
+  # @param clrs A vector of colors to reshuffle.
+  # @return A reshuffled vector of \code{clrs}.
+  
   n.col <- length(clrs)
   ordr <- rep(1:ceiling(n.col/2), each = 2, length.out = n.col)
   indx <- seq(2, length(ordr), 2)

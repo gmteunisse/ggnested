@@ -1,3 +1,33 @@
+#' Generate a ggplot2 object with a nested colour/fill structure
+#' 
+#' @description
+#' This function generates a ggplot2 object for a dataframe with a nested or 
+#' clustered structure. The main group or cluster is assigned a colour,
+#'  and each subgroup within each main group is assigned a shade or tint of that 
+#'  colour.
+#'
+#' @param data A dataframe
+#' @param mapping Aesthetic mapping for the ggplot2 object. Specify both group 
+#' and subgroup within the aesthetic mapping.
+#' @param ... Arguments to be passed to the ggplot function
+#' @param legend_labeling Labeling for legend keys. \code{main} displays the 
+#' label of the main group; \code{sub} displays the labels of the subgroups; 
+#' \code{join} displays the joined labels of the main and subgroups, separated 
+#' by \code{join_str}.
+#' @param join_str String used to join main and subgroup labels
+#' @param legend_title Legend title
+#' @param main_keys Logical. Display main groups as titles within the legend?
+#' @param nested_aes The aethetics in c("fill", "colour") to which to apply the nested
+#'  palette.
+#' @param main_palette An optional palette of at least as many colours as there  
+#' are unique values in the main grouping variable. Names will be used to assign
+#' colours if provided.
+#' @param base_clr A colour from which to generate other colours if no palette 
+#' is provided
+#' @return A ggplot2 object
+#' @import dplyr tidyr ggplot2
+#' @importFrom magrittr %>%
+#' @export
 ggnested <- function(data, 
                      mapping = aes(), 
                      ...,
@@ -114,9 +144,18 @@ ggnested <- function(data,
   return(p)
 }
 
-#' @import ggplot2
+#' Add a ggplot2 theme to a ggnested plot
+#' 
+#' @description
+#' This is a wrapper function around any  ggplot2 theme* function to modify the 
+#' theme of a ggnested plot.
+#'
+#' @param theme_fun The theme* function to apply
+#' @param ... Arguments to be passed to the theme* function
+#' @return A ggplot2 theme
+#' @import ggplot2 ggtext
 #' @export
-theme_nested <- function(theme_fun = theme_minimal, ...){
+theme_nested <- function(theme_fun = theme, ...){
   new_theme <- theme_fun(...) +
     theme(legend.text = element_markdown(),
           legend.key = element_rect(colour = "#FFFFFF",
