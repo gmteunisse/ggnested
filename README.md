@@ -69,6 +69,9 @@ library(ggnested)
 #> Loading required package: ggtext
 #> Warning: package 'ggtext' was built under R version 4.1.3
 data(diamonds)
+```
+
+``` r
 ggnested(diamonds, 
          aes(clarity, 
              main_group = color, 

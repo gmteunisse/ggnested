@@ -38,9 +38,12 @@ devtools::install_github("gmteunisse/ggnested")
 ### Basic
 `ggnested` can be used exactly like the regular `ggplot` function, but with some extra arguments. Instead of specifying a color or a fill, a `main_group` and a `sub_group` need to be specified in the aesthetic mapping through `aes(...)`. The ggplot object can then be used to create any regular ggplot plot, such as barplots, scatterplots or boxplots, as well as any other layers such as faceting.
 
-```{r barplot}
+```{r load_package}
 library(ggnested)
 data(diamonds)
+```
+
+```{r barplot, results='hide', message=F, warning=F}
 ggnested(diamonds, 
          aes(clarity, 
              main_group = color, 
