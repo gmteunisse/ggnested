@@ -8,6 +8,9 @@ nested_palette(
   data,
   group,
   subgroup,
+  gradient_type = c("both", "shades", "tints"),
+  min_l = 0.05,
+  max_l = 0.95,
   palette = NULL,
   base_clr = "#008CF0",
   join_str = "_"
@@ -20,8 +23,18 @@ nested_palette(
 
 \item{subgroup}{Name of the subgrouping variable in the dataframe}
 
+\item{gradient_type}{whether to generate shades, tints, or both for each main
+colour}
+
+\item{min_l}{the lowest lightness value between 0 and 1 of each gradient if 
+\code{type \%in\% c('both', 'shades')}, where 0 equals black and 1 equals white.}
+
+\item{max_l}{the highest lightness value between 0 and 1 of each gradient if 
+\code{type \%in\% c('both', 'tints')}, where 0 equals black and 1 equals white.}
+
 \item{palette}{An optional palette of at least as many colours as there are 
-unique values in the grouping variable}
+unique values in the grouping variable. If named, names are assumed to corresponds
+to \code{main_group} levels.}
 
 \item{base_clr}{A colour from which to generate other colours if no palette 
 is provided}

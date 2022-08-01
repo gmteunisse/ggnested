@@ -1,5 +1,5 @@
 #' @import tidyr plotwidgets
-generate_gradient <- function(i, clr = "#008CF0", min_l = 0.05, max_l = 0.95){
+generate_gradient <- function(i, clr = "#008CF0", type = c("both", "shades", "tints"), min_l = 0.05, max_l = 0.95){
   
   # Generate a gradient based on a colour
   # 
@@ -15,6 +15,7 @@ generate_gradient <- function(i, clr = "#008CF0", min_l = 0.05, max_l = 0.95){
   #
   # @param i The number of colors to generate.
   # @param clr The base color from which to generate the gradient
+  # @param type whether to generate shades, tints, or both
   # @param min_l The minimum lightness of the gradient
   # @param max_l the maximum lightness of the gradient
   # @return A vector of \code{i} colors.
@@ -30,7 +31,18 @@ generate_gradient <- function(i, clr = "#008CF0", min_l = 0.05, max_l = 0.95){
   clr_hsl <- col2hsl(clr)
   
   # Get the lightness points between 0 and 1 at which to generate shades and/or tints
-  ps <- divide_range(min_l, max_l, i)
+  type <- type[1]
+  if(type == "both"){
+    ps <- divide_range(min_l, max_l, i)
+  } else if (type == "shades"){
+    ps <- divide_range(min_l, clr_hsl["L",], i)
+  } else if (type == "tints"){
+    ps <- divide_range(clr_hsl["L",], max_l, i)
+  } else {
+    msg <- sprintf("Did not recognize type = %s. Choose one of 'both', 'shades' or 'tints")
+    stop(msg)
+  }
+  
   
   # Generate shades and tints of colour
   clrs <- sapply(ps, function(p){

@@ -7,8 +7,15 @@
 #' @param data A dataframe with at least two columns
 #' @param group Name of the main grouping variable in the dataframe
 #' @param subgroup Name of the subgrouping variable in the dataframe
+#' @param gradient_type whether to generate shades, tints, or both for each main
+#' colour
+#' @param min_l the lowest lightness value between 0 and 1 of each gradient if 
+#' \code{type \%in\% c('both', 'shades')}, where 0 equals black and 1 equals white.
+#' @param max_l the highest lightness value between 0 and 1 of each gradient if 
+#' \code{type \%in\% c('both', 'tints')}, where 0 equals black and 1 equals white.
 #' @param palette An optional palette of at least as many colours as there are 
-#' unique values in the grouping variable
+#' unique values in the grouping variable. If named, names are assumed to corresponds
+#' to \code{main_group} levels.
 #' @param base_clr A colour from which to generate other colours if no palette 
 #' is provided
 #' @param join_str The string used to join the group and subgroup variables
@@ -17,7 +24,9 @@
 #' @import dplyr tidyr purrr
 #' @importFrom magrittr %>%
 #' @export
-nested_palette <- function(data, group, subgroup, palette = NULL, base_clr = "#008CF0", join_str = "_"){
+nested_palette <- function(data, group, subgroup, gradient_type = c("both", "shades", "tints"),
+                           min_l = 0.05, max_l = 0.95, palette = NULL, base_clr = "#008CF0", 
+                           join_str = "_"){
   
   # Check arguments
   if (!group %in% colnames(data)){
@@ -81,7 +90,11 @@ nested_palette <- function(data, group, subgroup, palette = NULL, base_clr = "#0
     mutate(n = n()) %>%
     left_join(group_colours, by = group) %>%
     nest() %>%
-    mutate(subgroup_colour = map(data, ~generate_gradient(.x[["n"]][1], .x[["group_colour"]][1]))) %>%
+    mutate(subgroup_colour = map(data, ~generate_gradient(i = .x[["n"]][1], 
+                                                          clr = .x[["group_colour"]][1],
+                                                          type = gradient_type,
+                                                          min_l = min_l,
+                                                          max_l = max_l))) %>%
     unnest(c(data, subgroup_colour)) %>%
     ungroup() %>%
     mutate(group_subgroup = sprintf("%s%s%s", !!sym(group), join_str, !!sym(subgroup))) %>%

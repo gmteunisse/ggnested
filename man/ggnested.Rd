@@ -13,6 +13,9 @@ ggnested(
   legend_title = NULL,
   main_keys = TRUE,
   nested_aes = c("fill", "color"),
+  gradient_type = c("both", "shades", "tints"),
+  min_l = 0.05,
+  max_l = 0.95,
   main_palette = NULL,
   base_clr = "#008CF0"
 )
@@ -39,12 +42,23 @@ by \code{join_str}.}
 \item{nested_aes}{The aethetics in c("fill", "colour") to which to apply the nested
 palette.}
 
+\item{gradient_type}{whether to generate shades, tints, or both for each main
+colour}
+
+\item{min_l}{the lowest lightness value between 0 and 1 of each gradient if 
+\code{type \%in\% c('both', 'shades')}, where 0 equals black and 1 equals white.}
+
+\item{max_l}{the highest lightness value between 0 and 1 of each gradient if 
+\code{type \%in\% c('both', 'tints')}, where 0 equals black and 1 equals white.}
+
 \item{main_palette}{An optional palette of at least as many colours as there
 are unique values in the main grouping variable. Names will be used to assign
 colours if provided.}
 
 \item{base_clr}{A colour from which to generate other colours if no palette 
 is provided}
+
+\item{palette}{An optional palette of at least as many colours as there are}
 }
 \value{
 A ggplot2 object

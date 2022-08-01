@@ -19,6 +19,13 @@
 #' @param main_keys Logical. Display main groups as titles within the legend?
 #' @param nested_aes The aethetics in c("fill", "colour") to which to apply the nested
 #'  palette.
+#' @param gradient_type whether to generate shades, tints, or both for each main
+#' colour
+#' @param min_l the lowest lightness value between 0 and 1 of each gradient if 
+#' \code{type \%in\% c('both', 'shades')}, where 0 equals black and 1 equals white.
+#' @param max_l the highest lightness value between 0 and 1 of each gradient if 
+#' \code{type \%in\% c('both', 'tints')}, where 0 equals black and 1 equals white.
+#' @param palette An optional palette of at least as many colours as there are 
 #' @param main_palette An optional palette of at least as many colours as there  
 #' are unique values in the main grouping variable. Names will be used to assign
 #' colours if provided.
@@ -35,7 +42,10 @@ ggnested <- function(data,
                      join_str = " - ",
                      legend_title = NULL,
                      main_keys = TRUE,
-                     nested_aes = c("fill", "color"), 
+                     nested_aes = c("fill", "color"),
+                     gradient_type = c("both", "shades", "tints"),
+                     min_l = 0.05,
+                     max_l = 0.95,
                      main_palette = NULL, 
                      base_clr = "#008CF0"
 ){
@@ -67,7 +77,8 @@ ggnested <- function(data,
   subgroup <- quo_name(mapping$sub_group)
   
   # Generate the nested palette
-  pal <- nested_palette(data, group, subgroup, main_palette, base_clr, join_str)
+  pal <- nested_palette(data, group, subgroup, gradient_type, min_l, max_l, 
+                        main_palette, base_clr, join_str)
   
   # Extract colours
   colours <- pal %>%
