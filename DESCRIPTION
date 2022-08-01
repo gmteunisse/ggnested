@@ -17,15 +17,6 @@ Depends:
   plotwidgets,
   ggplot2,
   ggtext
-Imports:
-  grDevices,
-  tidyr,
-  dplyr,
-  purrr,
-  magrittr,
-  plotwidgets,
-  ggplot2,
-  ggtext
 RoxygenNote: 7.2.0
 Suggests: knitr,
     rmarkdown
