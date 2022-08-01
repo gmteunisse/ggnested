@@ -126,19 +126,56 @@ p
 
 ```
 
-The colour palette can also be extracted from the ggplot2 object using `extract_palette`.
+#### Gradients
+For each colour, a gradient between a dark shade and a lighter tint of the required number of colours is generated. By default, `ggnested` will generate both shades and tints for each colour. However, it is possible to limit the gradient generation to only shades or tints. Furthermore, it is possible to set the darkness and lightness limits of the scale.
 
-```{r}
-extract_palette(p)
+```{r gradient_shades}
+ggnested(diamonds, 
+         aes(clarity, 
+             main_group = color, 
+             sub_group = cut),
+         gradient_type = "shades",
+         min_l = 0.05) + 
+  geom_bar()
 
 ```
 
+```{r gradient_tints}
+ggnested(diamonds, 
+         aes(clarity, 
+             main_group = color, 
+             sub_group = cut),
+         gradient_type = "tints",
+         max_l = 0.95) + 
+  geom_bar()
+
+```
+```{r gradient_both}
+ggnested(diamonds, 
+         aes(clarity, 
+             main_group = color, 
+             sub_group = cut),
+         gradient_type = "both",
+         min_l = 0.3,
+         max_l = 0.6) + 
+  geom_bar()
+
+```
+
+#### Palette generation
 It's also possible to create your own nested palette for other purposes:
 
 ```{r}
 nested_palette(diamonds,
                group = "color",
                subgroup = "cut")
+
+```
+
+Alternatively, the colour palette can be extracted from the ggplot2 object using `extract_palette`.
+
+```{r}
+extract_palette(p)
 
 ```
 

@@ -152,26 +152,52 @@ p
 
 ![](man/figures/README-unnamed-chunk-3-1.png)<!-- -->
 
-The colour palette can also be extracted from the ggplot2 object using
-`extract_palette`.
+#### Gradients
+
+For each colour, a gradient between a dark shade and a lighter tint of
+the required number of colours is generated. By default, `ggnested` will
+generate both shades and tints for each colour. However, it is possible
+to limit the gradient generation to only shades or tints. Furthermore,
+it is possible to set the darkness and lightness limits of the scale.
 
 ``` r
-extract_palette(p)
-#> # A tibble: 35 x 3
-#>    group_subgroup group_colour subgroup_colour
-#>    <ord>          <chr>        <chr>          
-#>  1 D - Fair       grey50       #333333        
-#>  2 D - Good       grey50       #595959        
-#>  3 D - Very Good  grey50       #7F7F7F        
-#>  4 D - Premium    grey50       #A6A6A6        
-#>  5 D - Ideal      grey50       #CCCCCC        
-#>  6 E - Fair       red          #660000        
-#>  7 E - Good       red          #B20000        
-#>  8 E - Very Good  red          #FF0000        
-#>  9 E - Premium    red          #FF4D4D        
-#> 10 E - Ideal      red          #FF9999        
-#> # ... with 25 more rows
+ggnested(diamonds, 
+         aes(clarity, 
+             main_group = color, 
+             sub_group = cut),
+         gradient_type = "shades",
+         min_l = 0.05) + 
+  geom_bar()
 ```
+
+![](man/figures/README-gradient_shades-1.png)<!-- -->
+
+``` r
+ggnested(diamonds, 
+         aes(clarity, 
+             main_group = color, 
+             sub_group = cut),
+         gradient_type = "tints",
+         max_l = 0.95) + 
+  geom_bar()
+```
+
+![](man/figures/README-gradient_tints-1.png)<!-- -->
+
+``` r
+ggnested(diamonds, 
+         aes(clarity, 
+             main_group = color, 
+             sub_group = cut),
+         gradient_type = "both",
+         min_l = 0.3,
+         max_l = 0.6) + 
+  geom_bar()
+```
+
+![](man/figures/README-gradient_both-1.png)<!-- -->
+
+#### Palette generation
 
 It’s also possible to create your own nested palette for other purposes:
 
@@ -192,6 +218,27 @@ nested_palette(diamonds,
 #>  8 E     Very Good #F0CB00      #FFD800         E_Very Good   
 #>  9 E     Premium   #F0CB00      #FFE34D         E_Premium     
 #> 10 E     Ideal     #F0CB00      #FFEF99         E_Ideal       
+#> # ... with 25 more rows
+```
+
+Alternatively, the colour palette can be extracted from the ggplot2
+object using `extract_palette`.
+
+``` r
+extract_palette(p)
+#> # A tibble: 35 x 3
+#>    group_subgroup group_colour subgroup_colour
+#>    <ord>          <chr>        <chr>          
+#>  1 D - Fair       grey50       #333333        
+#>  2 D - Good       grey50       #595959        
+#>  3 D - Very Good  grey50       #7F7F7F        
+#>  4 D - Premium    grey50       #A6A6A6        
+#>  5 D - Ideal      grey50       #CCCCCC        
+#>  6 E - Fair       red          #660000        
+#>  7 E - Good       red          #B20000        
+#>  8 E - Very Good  red          #FF0000        
+#>  9 E - Premium    red          #FF4D4D        
+#> 10 E - Ideal      red          #FF9999        
 #> # ... with 25 more rows
 ```
 
