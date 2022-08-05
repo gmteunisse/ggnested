@@ -8,7 +8,7 @@ Description: This package creates a ggplot2 object for nested or clustered data.
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
-Depends:
+Imports:
   grDevices,
   tidyr,
   dplyr,
@@ -17,6 +17,8 @@ Depends:
   plotwidgets,
   ggplot2,
   ggtext
+Depends:
+  ggplot2
 RoxygenNote: 7.2.0
 Suggests: knitr,
     rmarkdown
