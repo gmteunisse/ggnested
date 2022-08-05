@@ -1,4 +1,4 @@
-#' @import tidyr plotwidgets
+#' @import tidyr plotwidgets grDevices
 generate_gradient <- function(i, clr = "#008CF0", type = c("both", "shades", "tints"), min_l = 0.05, max_l = 0.95){
   
   # Generate a gradient based on a colour
@@ -43,13 +43,25 @@ generate_gradient <- function(i, clr = "#008CF0", type = c("both", "shades", "ti
     stop(msg)
   }
   
+  # Generate gradient
+  low <- clr_hsl
+  low["L",] <- ps[1]
+  high <- clr_hsl
+  high["L",] <- ps[i]
+  clrs <- colorRampPalette(colors = c(hsl2col(low), 
+                                      hsl2col(high)),
+                           bias = 2,
+                           interpolate = "spline")(i)
+  
   
   # Generate shades and tints of colour
-  clrs <- sapply(ps, function(p){
-    clr_var <- clr_hsl
-    clr_var["L",] <- p
-    return(hsl2col(clr_var))
-  })
+  # This is the previous implementation. It is brighter,
+  # but harder to differentiate colours.
+  #clrs <- sapply(ps, function(p){
+  #  clr_var <- clr_hsl
+  #  clr_var["L",] <- p
+  #  return(hsl2col(clr_var))
+  #})
   return(clrs)
 }
 

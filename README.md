@@ -209,14 +209,14 @@ nested_palette(diamonds,
 #>    color cut       group_colour subgroup_colour group_subgroup
 #>    <ord> <ord>     <chr>        <chr>           <chr>         
 #>  1 D     Fair      #008CF0      #003C66         D_Fair        
-#>  2 D     Good      #008CF0      #0068B2         D_Good        
-#>  3 D     Very Good #008CF0      #0095FF         D_Very Good   
-#>  4 D     Premium   #008CF0      #4DB5FF         D_Premium     
+#>  2 D     Good      #008CF0      #26628C         D_Good        
+#>  3 D     Very Good #008CF0      #4C88B2         D_Very Good   
+#>  4 D     Premium   #008CF0      #72AED8         D_Premium     
 #>  5 D     Ideal     #008CF0      #99D5FF         D_Ideal       
 #>  6 E     Fair      #F0CB00      #665600         E_Fair        
-#>  7 E     Good      #F0CB00      #B29700         E_Good        
-#>  8 E     Very Good #F0CB00      #FFD800         E_Very Good   
-#>  9 E     Premium   #F0CB00      #FFE34D         E_Premium     
+#>  7 E     Good      #F0CB00      #8C7C26         E_Good        
+#>  8 E     Very Good #F0CB00      #B2A24C         E_Very Good   
+#>  9 E     Premium   #F0CB00      #D8C872         E_Premium     
 #> 10 E     Ideal     #F0CB00      #FFEF99         E_Ideal       
 #> # ... with 25 more rows
 ```
@@ -232,12 +232,12 @@ extract_palette(p)
 #>  1 D - Fair       grey50       #333333        
 #>  2 D - Good       grey50       #595959        
 #>  3 D - Very Good  grey50       #7F7F7F        
-#>  4 D - Premium    grey50       #A6A6A6        
+#>  4 D - Premium    grey50       #A5A5A5        
 #>  5 D - Ideal      grey50       #CCCCCC        
 #>  6 E - Fair       red          #660000        
-#>  7 E - Good       red          #B20000        
-#>  8 E - Very Good  red          #FF0000        
-#>  9 E - Premium    red          #FF4D4D        
+#>  7 E - Good       red          #8C2626        
+#>  8 E - Very Good  red          #B24C4C        
+#>  9 E - Premium    red          #D87272        
 #> 10 E - Ideal      red          #FF9999        
 #> # ... with 25 more rows
 ```
