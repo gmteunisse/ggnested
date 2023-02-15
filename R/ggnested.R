@@ -5,6 +5,10 @@
 #' clustered structure. The main group or cluster is assigned a colour,
 #'  and each subgroup within each main group is assigned a shade or tint of that 
 #'  colour.
+#'  
+#'  @details
+#'  The 'fancy' gradient is generated using the \code{colorspace} package and needs
+#'  fine tuningas, some parameter combinations do not yield a monochromal gradient.
 #'
 #' @param data A dataframe
 #' @param mapping Aesthetic mapping for the ggplot2 object. Specify both group 
@@ -19,12 +23,19 @@
 #' @param main_keys Logical. Display main groups as titles within the legend?
 #' @param nested_aes The aethetics in c("fill", "colour") to which to apply the nested
 #'  palette.
-#' @param gradient_type whether to generate shades, tints, or both for each main
-#' colour
+#' @param gradient_type whether to generate shades, tints, both or a fancy gradient
+#'  for each main colour. Fancy adjusts both luminance and chroma using the colorspace
+#'  package
 #' @param min_l the lowest lightness value between 0 and 1 of each gradient if 
 #' \code{type \%in\% c('both', 'shades')}, where 0 equals black and 1 equals white.
 #' @param max_l the highest lightness value between 0 and 1 of each gradient if 
 #' \code{type \%in\% c('both', 'tints')}, where 0 equals black and 1 equals white.
+#' @param min_c the lowest chroma value between 0 and 360 of each gradient if 
+#' \code{type == 'fancy'}.
+#' @param max_c the highest chroma value between 0 and 360 of each gradient if 
+#' \code{type == 'fancy'}.
+#' @param power control parameter determining how chroma and luminance need to be 
+#' increased (1=linear, 2= quadratic, etc.) if \code{type == 'fancy'}.
 #' @param palette An optional palette of at least as many colours as there are 
 #' @param main_palette An optional palette of at least as many colours as there  
 #' are unique values in the main grouping variable. Names will be used to assign
@@ -47,7 +58,10 @@ ggnested <- function(data,
                      min_l = 0.05,
                      max_l = 0.95,
                      main_palette = NULL, 
-                     base_clr = "#008CF0"
+                     base_clr = "#008CF0",
+                     min_c = 50,
+                     max_c = 90,
+                     power = 1
 ){
   
   # Check if mapping has required args
@@ -78,7 +92,7 @@ ggnested <- function(data,
   
   # Generate the nested palette
   pal <- nested_palette(data, group, subgroup, gradient_type, min_l, max_l, 
-                        main_palette, base_clr, join_str)
+                        main_palette, base_clr, join_str, min_c, max_c, power)
   
   # Extract colours
   colours <- pal %>%
