@@ -11,8 +11,9 @@
 #' @param data A dataframe with at least two columns
 #' @param group Name of the main grouping variable in the dataframe
 #' @param subgroup Name of the subgrouping variable in the dataframe
-#' @param gradient_type whether to generate shades, tints, or both for each main
-#' colour
+#' @param gradient_type whether to generate shades, tints, both or a fancy gradient for each main
+#' colour. Fancy adjusts both luminance and chroma using the colorspace
+#' package.
 #' @param min_l the lowest lightness value between 0 and 1 of each gradient if 
 #' \code{type \%in\% c('both', 'shades')}, where 0 equals black and 1 equals white.
 #' @param max_l the highest lightness value between 0 and 1 of each gradient if 
@@ -34,8 +35,8 @@
 #' @import dplyr tidyr purrr
 #' @importFrom magrittr %>%
 #' @export
-nested_palette <- function(data, group, subgroup, gradient_type = c("both", "shades", "tints"),
-                           min_l = 0.05, max_l = 0.95, palette = NULL, base_clr = "#008CF0", 
+nested_palette <- function(data, group, subgroup, gradient_type = c("both", "shades", "tints", "fancy"),
+                           min_l = 0.05, max_l = 0.98, palette = NULL, base_clr = "#008CF0", 
                            join_str = "_",  min_c = 50, max_c = 90, power = 1){
   
   # Check arguments

@@ -113,7 +113,7 @@ ggnested(diamonds,
 Note that if a custom palette is named, the colours will be associated with the appropriate `main_group` level.
 
 ```{r}
-pal <- c("red", "blue", "green", "yellow", "purple", "orange", "grey50")
+pal <- c("red", "blue", "green", "yellow", "purple", "orange", "violet")
 names(pal) <- unique(diamonds$color)
 p <- ggnested(diamonds, 
          aes(clarity, 
@@ -156,8 +156,54 @@ ggnested(diamonds,
              main_group = color, 
              sub_group = cut),
          gradient_type = "both",
-         min_l = 0.3,
-         max_l = 0.6) + 
+         min_l = 0.25,
+         max_l = 0.95) + 
+  geom_bar()
+
+```
+
+#### Fancy gradients
+As you can tell by the plots above, the shades and tints approach can sometimes look a bit flat. A fourth option, `fancy`, is therefore available. In this mode, it is recommended to change the default `min_l` to a higher number. Furthermore, some additional parameters are available, namely `min_c`, `max_c` and `power`. `min_c` and `max_c` alter the minimum and maximum chroma of the gradient, which determines the saturation. `power` determines whether the gradient is linear (`1`), quadratic (`2`) or more.
+
+```{r gradient_fancy}
+ggnested(diamonds, 
+         aes(clarity, 
+             main_group = color, 
+             sub_group = cut),
+         gradient_type = "fancy",
+         min_l = 0.25,
+         max_l = 0.95) + 
+  geom_bar()
+
+```
+
+```{r gradient_fancy_chroma}
+ggnested(diamonds, 
+         aes(clarity, 
+             main_group = color, 
+             sub_group = cut),
+         gradient_type = "fancy",
+         min_l = 0.25,
+         max_l = 0.95,
+         min_c = 100,
+         max_c = 10
+         ) + 
+  geom_bar()
+
+```
+
+```{r gradient_fancy_power}
+ggnested(diamonds, 
+         aes(clarity, 
+             main_group = color, 
+             sub_group = cut),
+         gradient_type = "fancy",
+         min_l = 0.25,
+         max_l = 0.95,
+         min_c = 100,
+         max_c = 10,
+         power=2
+         ) + 
   geom_bar()
 
 ```
@@ -179,7 +225,7 @@ extract_palette(p)
 
 ```
 
-#### Affected aethetics
+#### Affected aesthetics
 By default, both the `color` and `fill` aesthetics of the plot are altered by `ggnested`. However, it is possible to specify which aesthetics should be altered using `nested_aes = c("fill", "colour")`. Note that it leads to issues with the legends of geoms that automatically create both `colour` and `fill` aethetics, as shown with the boxplots below - the `main_group` titles now also show a box outline! This can of course be resolved by setting `main_keys = FALSE` as shown above.
 ```{r nested_aes}
 ggnested(diamonds, 
