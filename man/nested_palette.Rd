@@ -13,7 +13,10 @@ nested_palette(
   max_l = 0.95,
   palette = NULL,
   base_clr = "#008CF0",
-  join_str = "_"
+  join_str = "_",
+  min_c = 50,
+  max_c = 90,
+  power = 1
 )
 }
 \arguments{
@@ -40,6 +43,15 @@ to \code{main_group} levels.}
 is provided}
 
 \item{join_str}{The string used to join the group and subgroup variables}
+
+\item{min_c}{the lowest chroma value between 0 and 360 of each gradient if 
+\code{type == 'fancy'}.}
+
+\item{max_c}{the highest chroma value between 0 and 360 of each gradient if 
+\code{type == 'fancy'}.}
+
+\item{power}{control parameter determining how chroma and luminance need to be 
+increased (1=linear, 2= quadratic, etc.) if \code{type == 'fancy'}.}
 }
 \value{
 A dataframe with each group and its colour, each subgroup with its 
@@ -48,4 +60,8 @@ colour and the joined group_subgroup.
 \description{
 This function generates colours based on a grouping, and shades and tints 
 of each colour based on a subgrouping.
+
+ @details
+ The 'fancy' gradient is generated using the \code{colorspace} package and needs
+ fine tuningas, some parameter combinations do not yield a monochromal gradient.
 }

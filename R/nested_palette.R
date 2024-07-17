@@ -3,16 +3,27 @@
 #' @description
 #' This function generates colours based on a grouping, and shades and tints 
 #' of each colour based on a subgrouping.
+#' 
+#'  @details
+#'  The 'fancy' gradient is generated using the \code{colorspace} package and needs
+#'  fine tuningas, some parameter combinations do not yield a monochromal gradient.
 #'
 #' @param data A dataframe with at least two columns
 #' @param group Name of the main grouping variable in the dataframe
 #' @param subgroup Name of the subgrouping variable in the dataframe
-#' @param gradient_type whether to generate shades, tints, or both for each main
-#' colour
+#' @param gradient_type whether to generate shades, tints, both or a fancy gradient for each main
+#' colour. Fancy adjusts both luminance and chroma using the colorspace
+#' package.
 #' @param min_l the lowest lightness value between 0 and 1 of each gradient if 
 #' \code{type \%in\% c('both', 'shades')}, where 0 equals black and 1 equals white.
 #' @param max_l the highest lightness value between 0 and 1 of each gradient if 
 #' \code{type \%in\% c('both', 'tints')}, where 0 equals black and 1 equals white.
+#' @param min_c the lowest chroma value between 0 and 360 of each gradient if 
+#' \code{type == 'fancy'}.
+#' @param max_c the highest chroma value between 0 and 360 of each gradient if 
+#' \code{type == 'fancy'}.
+#' @param power control parameter determining how chroma and luminance need to be 
+#' increased (1=linear, 2= quadratic, etc.) if \code{type == 'fancy'}.
 #' @param palette An optional palette of at least as many colours as there are 
 #' unique values in the grouping variable. If named, names are assumed to corresponds
 #' to \code{main_group} levels.
@@ -24,9 +35,9 @@
 #' @import dplyr tidyr purrr
 #' @importFrom magrittr %>%
 #' @export
-nested_palette <- function(data, group, subgroup, gradient_type = c("both", "shades", "tints"),
-                           min_l = 0.05, max_l = 0.95, palette = NULL, base_clr = "#008CF0", 
-                           join_str = "_"){
+nested_palette <- function(data, group, subgroup, gradient_type = c("both", "shades", "tints", "fancy"),
+                           min_l = 0.05, max_l = 0.98, palette = NULL, base_clr = "#008CF0", 
+                           join_str = "_",  min_c = 50, max_c = 90, power = 1){
   
   # Check arguments
   if (!group %in% colnames(data)){
@@ -94,7 +105,10 @@ nested_palette <- function(data, group, subgroup, gradient_type = c("both", "sha
                                                           clr = .x[["group_colour"]][1],
                                                           type = gradient_type,
                                                           min_l = min_l,
-                                                          max_l = max_l))) %>%
+                                                          max_l = max_l,
+                                                          min_c = min_c,
+                                                          max_c = max_c,
+                                                          power = power))) %>%
     unnest(c(data, subgroup_colour)) %>%
     ungroup() %>%
     mutate(group_subgroup = sprintf("%s%s%s", !!sym(group), join_str, !!sym(subgroup))) %>%

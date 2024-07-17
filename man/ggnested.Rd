@@ -17,7 +17,10 @@ ggnested(
   min_l = 0.05,
   max_l = 0.95,
   main_palette = NULL,
-  base_clr = "#008CF0"
+  base_clr = "#008CF0",
+  min_c = 50,
+  max_c = 90,
+  power = 1
 )
 }
 \arguments{
@@ -42,8 +45,9 @@ by \code{join_str}.}
 \item{nested_aes}{The aethetics in c("fill", "colour") to which to apply the nested
 palette.}
 
-\item{gradient_type}{whether to generate shades, tints, or both for each main
-colour}
+\item{gradient_type}{whether to generate shades, tints, both or a fancy gradient
+for each main colour. Fancy adjusts both luminance and chroma using the colorspace
+package}
 
 \item{min_l}{the lowest lightness value between 0 and 1 of each gradient if 
 \code{type \%in\% c('both', 'shades')}, where 0 equals black and 1 equals white.}
@@ -58,6 +62,15 @@ colours if provided.}
 \item{base_clr}{A colour from which to generate other colours if no palette 
 is provided}
 
+\item{min_c}{the lowest chroma value between 0 and 360 of each gradient if 
+\code{type == 'fancy'}.}
+
+\item{max_c}{the highest chroma value between 0 and 360 of each gradient if 
+\code{type == 'fancy'}.}
+
+\item{power}{control parameter determining how chroma and luminance need to be 
+increased (1=linear, 2= quadratic, etc.) if \code{type == 'fancy'}.}
+
 \item{palette}{An optional palette of at least as many colours as there are}
 }
 \value{
@@ -68,4 +81,8 @@ This function generates a ggplot2 object for a dataframe with a nested or
 clustered structure. The main group or cluster is assigned a colour,
  and each subgroup within each main group is assigned a shade or tint of that 
  colour.
+ 
+ @details
+ The 'fancy' gradient is generated using the \code{colorspace} package and needs
+ fine tuningas, some parameter combinations do not yield a monochromal gradient.
 }

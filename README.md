@@ -139,7 +139,7 @@ Note that if a custom palette is named, the colours will be associated
 with the appropriate `main_group` level.
 
 ``` r
-pal <- c("red", "blue", "green", "yellow", "purple", "orange", "grey50")
+pal <- c("red", "blue", "green", "yellow", "purple", "orange", "violet")
 names(pal) <- unique(diamonds$color)
 p <- ggnested(diamonds, 
          aes(clarity, 
@@ -190,12 +190,69 @@ ggnested(diamonds,
              main_group = color, 
              sub_group = cut),
          gradient_type = "both",
-         min_l = 0.3,
-         max_l = 0.6) + 
+         min_l = 0.25,
+         max_l = 0.95) + 
   geom_bar()
 ```
 
 ![](man/figures/README-gradient_both-1.png)<!-- -->
+
+#### Fancy gradients
+
+As you can tell by the plots above, the shades and tints approach can
+sometimes look a bit flat. A fourth option, `fancy`, is therefore
+available. In this mode, it is recommended to change the default `min_l`
+to a higher number. Furthermore, some additional parameters are
+available, namely `min_c`, `max_c` and `power`. `min_c` and `max_c`
+alter the minimum and maximum chroma of the gradient, which determines
+the saturation. `power` determines whether the gradient is linear (`1`),
+quadratic (`2`) or more.
+
+``` r
+ggnested(diamonds, 
+         aes(clarity, 
+             main_group = color, 
+             sub_group = cut),
+         gradient_type = "fancy",
+         min_l = 0.25,
+         max_l = 0.95) + 
+  geom_bar()
+```
+
+![](man/figures/README-gradient_fancy-1.png)<!-- -->
+
+``` r
+ggnested(diamonds, 
+         aes(clarity, 
+             main_group = color, 
+             sub_group = cut),
+         gradient_type = "fancy",
+         min_l = 0.25,
+         max_l = 0.95,
+         min_c = 100,
+         max_c = 10
+         ) + 
+  geom_bar()
+```
+
+![](man/figures/README-gradient_fancy_chroma-1.png)<!-- -->
+
+``` r
+ggnested(diamonds, 
+         aes(clarity, 
+             main_group = color, 
+             sub_group = cut),
+         gradient_type = "fancy",
+         min_l = 0.25,
+         max_l = 0.95,
+         min_c = 100,
+         max_c = 10,
+         power=2
+         ) + 
+  geom_bar()
+```
+
+![](man/figures/README-gradient_fancy_power-1.png)<!-- -->
 
 #### Palette generation
 
@@ -205,20 +262,20 @@ It’s also possible to create your own nested palette for other purposes:
 nested_palette(diamonds,
                group = "color",
                subgroup = "cut")
-#> # A tibble: 35 x 5
+#> # A tibble: 35 × 5
 #>    color cut       group_colour subgroup_colour group_subgroup
 #>    <ord> <ord>     <chr>        <chr>           <chr>         
-#>  1 D     Fair      #008CF0      #003C66         D_Fair        
-#>  2 D     Good      #008CF0      #26628C         D_Good        
-#>  3 D     Very Good #008CF0      #4C88B2         D_Very Good   
-#>  4 D     Premium   #008CF0      #72AED8         D_Premium     
-#>  5 D     Ideal     #008CF0      #99D5FF         D_Ideal       
-#>  6 E     Fair      #F0CB00      #665600         E_Fair        
-#>  7 E     Good      #F0CB00      #8C7C26         E_Good        
-#>  8 E     Very Good #F0CB00      #B2A24C         E_Very Good   
-#>  9 E     Premium   #F0CB00      #D8C872         E_Premium     
-#> 10 E     Ideal     #F0CB00      #FFEF99         E_Ideal       
-#> # ... with 25 more rows
+#>  1 D     Fair      #008CF0      #003D69         D_Fair        
+#>  2 D     Good      #008CF0      #29648E         D_Good        
+#>  3 D     Very Good #008CF0      #538BB3         D_Very Good   
+#>  4 D     Premium   #008CF0      #7CB2D9         D_Premium     
+#>  5 D     Ideal     #008CF0      #A6DAFF         D_Ideal       
+#>  6 E     Fair      #F0CB00      #695800         E_Fair        
+#>  7 E     Good      #F0CB00      #8E7E29         E_Good        
+#>  8 E     Very Good #F0CB00      #B3A453         E_Very Good   
+#>  9 E     Premium   #F0CB00      #D9CA7C         E_Premium     
+#> 10 E     Ideal     #F0CB00      #FFF1A6         E_Ideal       
+#> # … with 25 more rows
 ```
 
 Alternatively, the colour palette can be extracted from the ggplot2
@@ -226,23 +283,23 @@ object using `extract_palette`.
 
 ``` r
 extract_palette(p)
-#> # A tibble: 35 x 3
+#> # A tibble: 35 × 3
 #>    group_subgroup group_colour subgroup_colour
 #>    <ord>          <chr>        <chr>          
-#>  1 D - Fair       grey50       #333333        
-#>  2 D - Good       grey50       #595959        
-#>  3 D - Very Good  grey50       #7F7F7F        
-#>  4 D - Premium    grey50       #A5A5A5        
-#>  5 D - Ideal      grey50       #CCCCCC        
-#>  6 E - Fair       red          #660000        
-#>  7 E - Good       red          #8C2626        
-#>  8 E - Very Good  red          #B24C4C        
-#>  9 E - Premium    red          #D87272        
-#> 10 E - Ideal      red          #FF9999        
-#> # ... with 25 more rows
+#>  1 D - Fair       violet       #5C0D5C        
+#>  2 D - Good       violet       #823582        
+#>  3 D - Very Good  violet       #A85EA8        
+#>  4 D - Premium    violet       #CE87CE        
+#>  5 D - Ideal      violet       #F4B0F4        
+#>  6 E - Fair       red          #690000        
+#>  7 E - Good       red          #8E2929        
+#>  8 E - Very Good  red          #B35353        
+#>  9 E - Premium    red          #D97C7C        
+#> 10 E - Ideal      red          #FFA6A6        
+#> # … with 25 more rows
 ```
 
-#### Affected aethetics
+#### Affected aesthetics
 
 By default, both the `color` and `fill` aesthetics of the plot are
 altered by `ggnested`. However, it is possible to specify which
